@@ -40,7 +40,8 @@ SHA-256：1e1b9202eaa69198f20df03dbfdab2f103b206cc4ebcd2e7bd817e6a710018a2
 
 7 个只读审计脚本全部重跑通过，覆盖：
 
-- PP 点击 → class 6 事件
+- PP 选择 `+0x1B8` → `0x03010000` → class 6 事件
+- 刷新 `+0x1C8` → `0x0201000C` → `0x183FDAC -> 0x183FD30`，与选择共用队列但不是 class 6
 - `view_list_pictureprofile` vtable/refresh mode gate
 - BKID `0x1185` 身份纠正
 - 条件树根引用 census
@@ -158,17 +159,17 @@ stride：0x34
 字段：
 
 ```text
-+0x10 -> 0x183FC9C   选择事件回调
-+0x58 -> 0x183FC8C   thunk
-+0x78 -> 0x183FDAC
-+0x90 -> 0x183FC78   thunk
++0x10 -> 0x183FC9C   选择事件回调（+0x1B8，0x03010000，30 字节，class 6）
++0x58 -> 0x183FC8C   另一个回调入口，不能当作 +0x1C8
++0x78 -> 0x183FDAC   刷新接口（+0x1C8）
++0x90 -> 0x183FC78   另一个回调入口
 ```
 
 **判断：这些是 App/view 事件层回调，不是候选列表 provider。**
 
 ### 3.6 refresh context
 
-`+0x1C8` 是一个对象，有 vtable。
+`+0x1C8` 是刷新接口。
 
 `0x18A1094` / `0x18A1E18` 会：
 
@@ -181,7 +182,15 @@ mov w1, #0x0201000C
 blr x2
 ```
 
-即向 refresh context 发送 **event `0x0201000C`**，请求刷新/数据。
+刷新路径：
+
+```text
+0x183FDAC -> 0x183FD30 -> 0x183FBD0
+event 0x0201000C，24 字节
+queue 0x005503E0
+```
+
+它与 PP 选择共用队列，但**不是 class 6**，也不经过选择事件的 `0x008F013A` 路径。
 
 ---
 
