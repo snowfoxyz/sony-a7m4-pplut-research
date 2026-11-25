@@ -1,3 +1,7 @@
+> **Update (2026-11-25):** a newer evidence layer is in
+> [docs/2026-11-25/README.md](docs/2026-11-25/README.md).
+> The 2026-11-22 text below is retained as historical context.
+
 # Sony A7M4 6.02 PPLUT / Log Shooting 研究状态
 
 **状态日期：** 2026-11-22  
