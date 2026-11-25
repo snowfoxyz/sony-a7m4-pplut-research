@@ -35,3 +35,7 @@ Erlla's custom menu appearing in movie mode does not make it PPLUT.
 - No firmware images, partition data, keys, device identifiers, or flashing procedures.
 - Addresses and key values are research leads, not ready-to-apply patches.
 - No camera I/O, property writes, firmware modification, or flashing was performed.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
